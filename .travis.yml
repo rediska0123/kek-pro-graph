@@ -1,4 +1,9 @@
 language: cpp
 compiler: gcc
 
-script: make
+install:
+ - ./serd/waf/configure
+ - ./serd/waf
+ - sudo ./serd/waf install
+
+script: make rdf_test

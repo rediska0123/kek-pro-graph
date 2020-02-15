@@ -10,7 +10,6 @@
 and
 ```
     git submodule update --init --recursive
-
 ```
 
 ## Running the tests
