@@ -2,12 +2,13 @@
 
 ## Installing
 
+From kek-pro-graph/serd directory:
 ```
-    ./serd/waf configure
-    ./serd/waf
-    ./serd/waf install # or sudo ./serd/waf install
+    ./waf configure
+    ./waf
+    ./waf install # or sudo ./serd/waf install
 ```
-and
+and from kek-pro-graph directory:
 ```
     git submodule update --init --recursive
 ```

@@ -2,8 +2,9 @@ language: cpp
 compiler: gcc
 
 install:
- - ./serd/waf configure
- - ./serd/waf
- - sudo ./serd/waf install
+ - cd serd
+ - ./waf configure
+ - ./waf
+ - sudo ./waf install
 
 script: make rdf_test
