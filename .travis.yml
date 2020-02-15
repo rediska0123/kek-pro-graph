@@ -6,5 +6,6 @@ install:
  - ./waf configure
  - ./waf
  - sudo ./waf install
+ - cd ../
 
 script: make rdf_test
