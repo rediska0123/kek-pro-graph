@@ -1,9 +1,9 @@
-#include "SumTest.h"
+#include "ParseRDFTest.h"
 
 int main() {
-    SumTest st;
+    ParseRDFTest st;
     st.run_all_tests();
-    SumTest::show_final_result();
+    ParseRDFTest::show_final_result();
     
     return 0;
 }

@@ -1,21 +1,24 @@
 .PHONY: all clean
 
 CXX=g++
-CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude
+CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude -Iserd/serd
 
-all: sum_test
+all: main
 
-sum_test: bin/test.o bin/Test.o bin/SumTest.o bin/sum.o bin
-	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/SumTest.o bin/sum.o
+main: bin/main.o bin/parseRDF.o
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/main.o bin/parseRDF.o serd/build/src/*.3.o
+
+rdf_test: bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o bin
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o serd/build/src/*.3.o
 
 bin:
 	mkdir -p bin
 
-bin/%.o: src/%.cpp include/*.h bin
+bin/%.o: src/%.cpp bin
 	$(CXX) $(CXXFLAGS) -c -o $@ -Iinclude $<
 
-bin/%.o: test/%.cpp include/*.h bin
+bin/%.o: test/%.cpp bin
 	$(CXX) $(CXXFLAGS) -c -o $@ -Iinclude $<
 
 clean:
-	rm -rf bin sum_test
+	rm -rf bin main rdf_test

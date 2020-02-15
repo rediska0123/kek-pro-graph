@@ -1,0 +1,3 @@
+[submodule "serd"]
+	path = serd
+	url = https://github.com/drobilla/serd.git

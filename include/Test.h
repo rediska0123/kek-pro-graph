@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TEST_H
+#define TEST_H
 
 #include <cstddef>
 
@@ -15,4 +16,6 @@ public:
 };
 
 #define DO_CHECK(EXPR) check(EXPR, __FUNCTION__, __FILE__, __LINE__)
+
+#endif
 
