@@ -2,7 +2,7 @@ language: cpp
 compiler: gcc
 
 install:
- - ./serd/waf/configure
+ - ./serd/waf configure
  - ./serd/waf
  - sudo ./serd/waf install
 
