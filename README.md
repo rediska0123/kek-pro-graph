@@ -6,10 +6,7 @@
 From kek-pro-graph directory:
 ```
     git submodule update --init --recursive
-```
-from kek-pro-graph/RedisGraph directory:
-```
-    make
+    sudo apt-get install build-essential cmake m4 automake peg libtool autoconf
 ```
 and from kek-pro-graph/serd directory:
 ```
