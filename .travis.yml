@@ -6,8 +6,7 @@ install:
  - ./waf configure
  - ./waf
  - sudo ./waf install
- - cd ../RedisGraph
- - make
  - cd ../
+ - sudo apt-get install build-essential cmake m4 automake peg libtool autoconf
 
 script: make rdf_test
