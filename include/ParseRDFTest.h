@@ -1,5 +1,5 @@
-#ifndef SUM_TEST_H
-#define SUM_TEST_H
+#ifndef PARSE_RDF_TEST_H
+#define PARSE_RDF_TEST_H
 
 #include "Test.h"
 
