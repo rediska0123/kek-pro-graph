@@ -6,6 +6,8 @@ install:
  - ./waf configure
  - ./waf
  - sudo ./waf install
+ - cd ../RedisGraph
+ - make
  - cd ../
 
 script: make rdf_test
