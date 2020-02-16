@@ -11,7 +11,7 @@ and from kek-pro-graph/serd directory:
 ```
     ./waf configure
     ./waf
-    ./waf install # or sudo ./serd/waf install
+    ./waf install # or sudo ./waf install
 ```
 
 ## Running the tests
