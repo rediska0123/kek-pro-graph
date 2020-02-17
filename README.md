@@ -39,6 +39,6 @@ Start neo4j server:
 ```
 Run main:
 ```
-	make
-	./main
+    make
+    ./main
 ```
