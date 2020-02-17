@@ -26,8 +26,8 @@ SerdStatus handle_triple(
 	return SERD_SUCCESS;
 }
 
-// TODO: write comments.
-void parseRDF(const char* path) {
+void parseRDF(neo4j_connection_t *connection, const char* path) {
+	(void)connection;
 	(void)path;
 	Kek *rt = (Kek*)calloc(1, sizeof(Kek));
 	SerdReader *reader = serd_reader_new(

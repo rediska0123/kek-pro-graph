@@ -10,12 +10,12 @@ int main(int argc, char *argv[]) {
 
     neo4j_connection_t *connection =
             neo4j_connect("neo4j://neo4j/neo4j:pass@localhost:7474", NULL, NEO4J_INSECURE);
-    /*if (connection == NULL) {
+    if (connection == NULL) {
         neo4j_perror(stderr, errno, "Connection failed");
         return 1;
     }
 
-    neo4j_result_stream_t *results =
+    /*neo4j_result_stream_t *results =
             neo4j_run(connection, "RETURN 'hello world'", neo4j_null);
     if (results == NULL) {
         neo4j_perror(stderr, errno, "Failed to run statement");
