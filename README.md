@@ -9,6 +9,10 @@ Install neo4j:
     echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
     sudo apt-get update
 ```
+Install neo4j-client:
+```
+    sudo apt-get install -y neo4j-client
+```
 from kek-pro-graph directory:
 ```
     git submodule update --init --recursive
