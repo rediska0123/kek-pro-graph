@@ -1,10 +1,11 @@
-#include <stdio.h>
 #include "parseRDF.h"
+#include <stdio.h>
 #include <cstdlib>
+#include "serd.h"
 
 typedef struct {
 	int a;
-} Graph;
+} Kek;
 
 SerdStatus handle_triple(
 	void*              handle,
@@ -27,7 +28,8 @@ SerdStatus handle_triple(
 
 // TODO: write comments.
 void parseRDF(const char* path) {
-	Graph *rt = (Graph*)calloc(1, sizeof(Graph));
+	(void)path;
+	Kek *rt = (Kek*)calloc(1, sizeof(Kek));
 	SerdReader *reader = serd_reader_new(
 		SERD_NTRIPLES, rt, free,
 		NULL, NULL, handle_triple, NULL);

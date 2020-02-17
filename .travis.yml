@@ -6,7 +6,12 @@ install:
  - ./waf configure
  - ./waf
  - sudo ./waf install
+ - cd ../libneo4j-client
+ - ./autogen.sh
  - cd ../
- - sudo apt-get install build-essential cmake m4 automake peg libtool autoconf
+ - sudo apt-get install neo4j
 
-script: make rdf_test
+script:
+ - make
+ - sudo neo4j start -env NEO4J_AUTH=neo4j/pass
+ - ./main

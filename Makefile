@@ -1,18 +1,15 @@
 .PHONY: all clean
 
 CXX=g++
-CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude -Iserd/serd -IRedisGraph/src/graph -IRedisGraph/deps/xxHash -IRedisGraph/deps/rax
+CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude -Iserd/serd
 
 all: main
 
-main: redis_all bin/main.o bin/parseRDF.o
-	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/main.o bin/parseRDF.o serd/build/src/*.3.o RedisGraph/src/redisgraph.so
+main: bin/main.o bin/parseRDF.o
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/main.o bin/parseRDF.o serd/build/src/*.3.o -lneo4j-client
 
-rdf_test: redis_all bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o bin
-	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o serd/build/src/*.3.o RedisGraph/src/redisgraph.so
-
-redis_all:
-	@$(MAKE) -C ./RedisGraph all
+rdf_test: bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o bin
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o serd/build/src/*.3.o -lneo4j-client
 
 bin:
 	mkdir -p bin
@@ -25,4 +22,3 @@ bin/%.o: test/%.cpp bin
 
 clean:
 	rm -rf bin main rdf_test
-	@$(MAKE) -C ./RedisGraph $@

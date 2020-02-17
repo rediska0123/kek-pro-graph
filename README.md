@@ -1,12 +1,18 @@
 # Kek Pro Graph
 какой-то кек про граф
 
-## Installing
+## Installing (Linux OS)
 
-From kek-pro-graph directory:
+```
+    sudo apt-get install neo4j
+```
+from kek-pro-graph directory:
 ```
     git submodule update --init --recursive
-    sudo apt-get install build-essential cmake m4 automake peg libtool autoconf
+```
+from kek-pro-graph/libneo4j-client directory:
+```
+    ./autogen.sh
 ```
 and from kek-pro-graph/serd directory:
 ```
@@ -22,4 +28,14 @@ and from kek-pro-graph/serd directory:
     ./rdf_test
 ```
 
+## Running main
 
+Start neo4j server:
+```
+    sudo neo4j start -env NEO4J_AUTH=neo4j/pass
+```
+Run main:
+```
+	make
+	./main
+```
