@@ -6,8 +6,6 @@ install:
  - ./waf configure
  - ./waf
  - sudo ./waf install
- - cd ../libneo4j-client
- - ./autogen.sh
  - cd ../
  - wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
  - echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list

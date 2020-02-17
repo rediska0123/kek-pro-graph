@@ -18,10 +18,6 @@ from kek-pro-graph directory:
 ```
     git submodule update --init --recursive
 ```
-from kek-pro-graph/libneo4j-client directory:
-```
-    ./autogen.sh
-```
 and from kek-pro-graph/serd directory:
 ```
     ./waf configure
