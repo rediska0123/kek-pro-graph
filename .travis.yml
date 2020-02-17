@@ -11,6 +11,7 @@ install:
  - echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
  - sudo apt-get update
  - echo -ne '\n' | sudo add-apt-repository ppa:cleishm/neo4j
+ - sudo apt-get update
  - sudo apt-get install neo4j-client libneo4j-client-dev
 
 script:

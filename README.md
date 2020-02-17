@@ -12,6 +12,7 @@ Install neo4j:
 Install neo4j-client:
 ```
     sudo add-apt-repository ppa:cleishm/neo4j
+    sudo apt-get update
     sudo apt-get install neo4j-client libneo4j-client-dev
 ```
 from kek-pro-graph directory:
