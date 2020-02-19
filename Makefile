@@ -6,10 +6,10 @@ CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude -Iserd/serd
 all: main
 
 main: bin/main.o bin/parseRDF.o
-	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/main.o bin/parseRDF.o serd/build/src/*.3.o -lneo4j-client
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/main.o bin/parseRDF.o serd/build/src/*.3.o
 
 rdf_test: bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o bin
-	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o serd/build/src/*.3.o -lneo4j-client
+	$(CXX) $(CXXFLAGS) -o $@ -Iinclude bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parseRDF.o serd/build/src/*.3.o
 
 bin:
 	mkdir -p bin

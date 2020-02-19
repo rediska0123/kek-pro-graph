@@ -1,11 +1,14 @@
-#include "parseRDF.h"
-#include <stdio.h>
-#include <cstdlib>
 #include "serd.h"
+#include "parseRDF.h"
 
-typedef struct {
-	int a;
-} Kek;
+using namespace std;
+
+Edge::Edge(string from_label, string to_label, string edge_label):
+	from_label(from_label), to_label(to_label), edge_label(edge_label) {}
+
+struct Graph {
+	vector <Edge> *v;
+};
 
 SerdStatus handle_triple(
 	void*              handle,
@@ -17,24 +20,30 @@ SerdStatus handle_triple(
 	const SerdNode*    object_datatype,
 	const SerdNode*    object_lang)
 {
-	(void)handle;
 	(void)flags;
 	(void)object_datatype;
 	(void)object_lang;
+	
+	Graph *g = (Graph*)handle;
+	g->v->push_back(Edge(
+		string((char*)subject->buf),
+		string((char*)object->buf),
+		string((char*)predicate->buf)));
 
-	printf("	%s %s %s\n", subject->buf, object->buf, predicate->buf);
 	return SERD_SUCCESS;
 }
 
-void parseRDF(neo4j_connection_t *connection, const char* path) {
-	(void)connection;
-	(void)path;
-	Kek *rt = (Kek*)calloc(1, sizeof(Kek));
+vector <Edge> parseRDF(const char* path) {
+	Graph *g = new Graph();
+	vector <Edge> edges;
+	g->v = &edges;
 	SerdReader *reader = serd_reader_new(
-		SERD_NTRIPLES, rt, free,
+		SERD_NTRIPLES, g, free,
 		NULL, NULL, handle_triple, NULL);
 
 	serd_reader_read_file(reader, (const uint8_t*)(path));
 
 	serd_reader_free(reader);
+	
+	return edges;
 }

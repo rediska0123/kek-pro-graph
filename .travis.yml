@@ -7,15 +7,9 @@ install:
  - ./waf
  - sudo ./waf install
  - cd ../
- - wget -O - https://debian.neo4j.org/neotechnology.gpg.key | sudo apt-key add -
- - echo 'deb https://debian.neo4j.org/repo stable/' | sudo tee -a /etc/apt/sources.list.d/neo4j.list
- - sudo apt-get update
- - sudo apt-get install neo4j
- - echo -ne '\n' | sudo add-apt-repository ppa:cleishm/neo4j
- - sudo apt-get update
- - sudo apt-get install neo4j-client libneo4j-client-dev
 
 script:
  - make
- - sudo neo4j start -env NEO4J_AUTH=neo4j/pass
- - ./main
+ - make rdf_test
+ - ./rdf_test
+ - ./main test/files/test_single_edge.nt

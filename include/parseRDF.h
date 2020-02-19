@@ -1,9 +1,18 @@
 #ifndef PARSE_RDF_H
 #define PARSE_RDF_H
 
-#include <neo4j-client.h>
+#include <string>
+#include <vector>
 
-// TODO: write comments
-void parseRDF(neo4j_connection_t *connection, const char *filename);
+struct Edge {
+	Edge(std::string from_label, std::string to_label, std::string edge_label);
+	
+	std::string from_label;
+	std::string to_label;
+	std::string edge_label;
+};
+
+// parseRDF parses the NTriples RDF format file to list of edges.
+std::vector <Edge> parseRDF(const char *filename);
 
 #endif

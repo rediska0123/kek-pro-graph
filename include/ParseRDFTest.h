@@ -5,8 +5,9 @@
 
 class ParseRDFTest: public Test {
 private:
-	void test1();
-	void test2();
+	void test_empty_file();
+	void test_single_edge();
+	void test_general();
 	
 public:
 	void run_all_tests();
