@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/rediska0123/kek-pro-graph.svg?branch=dev)](https://travis-ci.org/rediska0123/kek-ro-graph)
+[![Build Status](https://travis-ci.com/rediska0123/kek-pro-graph.svg?branch=dev)](https://travis-ci.org/rediska0123/kek-pro-graph)
 
 # Kek Pro Graph
 какой-то кек про граф
