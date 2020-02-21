@@ -18,14 +18,14 @@ and from kek-pro-graph/serd directory:
 
 To build the project simply run
 ```
-	make
-	make rdf_test (to build tests)
+    make
+    make rdf_test
 ```
 
 ### Running tests instructions
 
 ```
-	make rdf_test
+    make rdf_test
     ./rdf_test
 ```
 
@@ -34,7 +34,7 @@ To build the project simply run
 To parse .nt file run:
 ```
     make
-    ./main *your_filepath*
+    ./main your_filepath
 ```
 Last command will print edges found in the provided file (found in your_filepath)
 in format from-vertex label, edge label, to-vertex label. Each label is a string.
