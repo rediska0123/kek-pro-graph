@@ -1,0 +1,15 @@
+language: cpp
+compiler: gcc
+
+install:
+ - cd serd
+ - ./waf configure
+ - ./waf
+ - sudo ./waf install
+ - cd ../
+
+script:
+ - make
+ - make rdf_test
+ - ./rdf_test
+ - ./main test/files/test_general.nt
