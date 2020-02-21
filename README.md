@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rediska0123/kek-pro-graph.png?branch=dev)](https://travis-ci.org/rediska/kek-ro-graph)
+
 # Kek Pro Graph
 какой-то кек про граф
 
