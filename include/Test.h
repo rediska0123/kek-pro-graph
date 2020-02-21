@@ -10,7 +10,7 @@ protected:
 	
 public:	
 	static void check(bool expr, const char *func, const char *filename, std::size_t lineNum);
-	static void show_final_result();
+	static int show_final_result();
 	
 	virtual void run_all_tests() = 0;
 };

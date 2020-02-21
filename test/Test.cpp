@@ -9,11 +9,14 @@ void Test::check(bool expr, const char *func, const char *file, size_t line_num)
 	total_num++;
 }
 
-void Test::show_final_result() {
-	if (failed_num == 0)
+int Test::show_final_result() {
+	if (failed_num == 0) {
 		printf("All tests passed.\n");
-	else
+		return 0;
+	} else {
 		printf("Failed %d of %d tests\n", failed_num, total_num);
+		return 1;
+	}
 }
 
 int Test::total_num = 0;
