@@ -41,4 +41,4 @@ To parse .nt file run:
 Last command will print edges found in the provided file (found in your_filepath)
 in format from-vertex label, edge label, to-vertex label. Each label is a string.
 
-To parse example file use 'test/files/test_single_edge.nt' as *your_filepath*.
+To parse example file use 'test/files/test_general.nt' as *your_filepath*.

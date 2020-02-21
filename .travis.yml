@@ -12,4 +12,4 @@ script:
  - make
  - make rdf_test
  - ./rdf_test
- - ./main test/files/test_single_edge.nt
+ - ./main test/files/test_general.nt
