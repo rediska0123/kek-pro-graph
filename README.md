@@ -1,7 +1,7 @@
 # Kek Pro Graph
 какой-то кек про граф
 
-## Installing (Linux OS)
+## Installing instructions (Linux OS)
 
 From kek-pro-graph directory:
 ```
@@ -14,17 +14,29 @@ and from kek-pro-graph/serd directory:
     sudo ./waf install
 ```
 
-## Running the tests
+## Building instructions
+
+To build the project simply run
+```
+	make
+	make rdf_test (to build tests)
+```
+
+### Running tests instructions
 
 ```
-    make rdf_test
+	make rdf_test
     ./rdf_test
 ```
 
-## Running main
+## Parsing RDF NTriple files:
 
-Run main:
+To parse .nt file run:
 ```
     make
-    ./main test/files/test_single_edge.nt
+    ./main *your_filepath*
 ```
+Last command will print edges found in the provided file (found in your_filepath)
+in format from-vertex label, edge label, to-vertex label. Each label is a string.
+
+To parse example file use 'test/files/test_single_edge.nt' as *your_filepath*.
