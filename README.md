@@ -67,7 +67,7 @@ Regex supported operations:
 | A\|B                  | union of two regular expressions A and B                  |
 | A*                    | star (repeat any number of times)                         |
 | (A)                   | separates A (as usual brackets in arithmetic expressions) |
-| \\(, \\), \\*, \\\|   | simple (, ), *, |, \ symbols                              |
+| \\(, \\), \\*, \\\|   | simple (, ), *, \| symbols                                |
 
 ##### Priorities
 '|' < concatention (no symbol) < '*'
