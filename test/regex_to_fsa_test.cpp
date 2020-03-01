@@ -49,7 +49,7 @@ void RegexToFsaTest::test_general() {
 	};
 	
 	for (test t : tests) {
-		DeterministicAutomaton d = regex_to_fsa(t.regex);
+		DeterministicAutomaton d = regex_to_dfsa(t.regex);
 		for (string s : t.accepted)
 			DO_CHECK(d.accepts(s));
 		for (string s : t.non_accepted)

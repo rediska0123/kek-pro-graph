@@ -6,6 +6,6 @@
 
 // regex_to_fsa returns an deterministic finite state machine
 // corresponding to the given regular expression.
-DeterministicAutomaton regex_to_fsa(const std::string &regex);
+DeterministicAutomaton regex_to_dfsa(const std::string &regex);
 
 #endif
