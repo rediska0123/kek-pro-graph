@@ -196,9 +196,10 @@ size_t NonDeterministicAutomaton::size() const { return _automaton.size(); }
 bool NonDeterministicAutomaton::_accepts_from_vertex(int st, const string &s, int i) {
 	if (i >= (int)s.length())
 		return _automaton[st].is_terminal;
-	vector <int> &nxt = _automaton[st].go[s[i]];
-	for (int x : nxt)
-		if (_accepts_from_vertex(x, s, i + 1))
+	vector <pair <char, int> > nxt;
+	_step_once({st}, nxt);
+	for (pair <char, int> x : nxt)
+		if (x.first == s[i] && _accepts_from_vertex(x.second, s, i + 1))
 			return true;
 	return false;
 }

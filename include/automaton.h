@@ -36,6 +36,12 @@ class DeterministicAutomaton {
 	// Constructs an equivalent deterministic automaton, which contains
 	// as minimal vertexes as possible.
 	DeterministicAutomaton minimize() const;
+
+	// Returns the automaton intersection of automatons a and b.
+	// Both a and b should be complete. Otherwise intersect may throw an
+	// invalid argument exception.
+	friend DeterministicAutomaton intersect(
+		const DeterministicAutomaton &a, const DeterministicAutomaton &b);
 	
 	// Prints the automaton.
 	void print() const;
@@ -93,6 +99,12 @@ class NonDeterministicAutomaton {
 	
 	// Returns a deterministic automaton corresponding to the current one.
 	DeterministicAutomaton make_deterministic() const;
+
+	// Returns the automaton intersection of automatons a and b.
+	// Both a and b should be complete. Otherwise intersect may throw an
+	// invalid argument exception.
+	friend DeterministicAutomaton intersect(
+		const NonDeterministicAutomaton &a, const NonDeterministicAutomaton &b);
 
   private:
 	struct Vertex {
