@@ -7,9 +7,9 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	
-	DeterministicAutomaton d = regex_to_fsa("a*b*");
+	DeterministicAutomaton d = regex_to_fsa("(ab|aab|aba)*");
 	
-	cout << d.accepts("") << endl;
+	cout << d.accepts("aababaabababa") << endl;
 	
 	return 0;
 }

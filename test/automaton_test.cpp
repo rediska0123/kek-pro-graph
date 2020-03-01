@@ -161,7 +161,36 @@ void AutomatonTest::test_make_deterministic() {
 }
 
 void AutomatonTest::test_deterministic_minimize() {
-	// TODO
+	{ // aa*a
+		NonDeterministicAutomaton a = test_automaton1();
+		DeterministicAutomaton d = a.make_deterministic().minimize();
+		CHECK_ACCEPT(d, (vector <string> {
+			"aa", "aaa", "aaaaaa"
+		}), (vector <string> {
+			"", "a", "aba", "dsedrfg"
+		}));
+		DO_CHECK(d.size() == 3);
+	}
+	{ // b(c|d)*(d|r)
+		NonDeterministicAutomaton a = test_automaton2();
+		DeterministicAutomaton d = a.make_deterministic().minimize();
+		CHECK_ACCEPT(d, (vector <string> {
+			"bd", "br", "bcdcd", "bcddr"
+		}), (vector <string> {
+			"", "dr", "bc", "bcdcdcdcdc"
+		}));
+		DO_CHECK(d.size() == 4);
+	}
+	{ // (ab|aba|aab)*
+		NonDeterministicAutomaton a = test_automaton3();
+		DeterministicAutomaton d = a.make_deterministic().minimize();
+		CHECK_ACCEPT(d, (vector <string> {
+			"", "ab", "aba", "aab", "aabab", "aababaaababaabaababa"
+		}), (vector <string> {
+			"a", "b", "abb", "dsedrfg", "abbabbabaaaab"
+		}));
+		DO_CHECK(d.size() == 5);
+	}
 }
 
 void AutomatonTest::run_all_tests() {

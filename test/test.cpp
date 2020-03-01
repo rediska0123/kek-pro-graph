@@ -17,5 +17,5 @@ int main() {
 	TEST(AutomatonTest);
 	TEST(RegexToFsaTest);
     
-    return 0;
+	return 0;
 }

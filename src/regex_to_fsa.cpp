@@ -58,5 +58,5 @@ NonDeterministicAutomaton _regextree_to_eps_fsa(TreeNode *tr) {
 
 DeterministicAutomaton regex_to_fsa(const string &regex) {
 	TreeNode *tr = parse_regex(regex);
-	return _regextree_to_eps_fsa(tr).make_deterministic();
+	return _regextree_to_eps_fsa(tr).make_deterministic().minimize();
 }

@@ -47,8 +47,84 @@ bool DeterministicAutomaton::accepts(const string &s) {
 }
 
 DeterministicAutomaton DeterministicAutomaton::minimize() const {
-	return *this;
-	// TODO
+	int n = size();
+	map <pair <int, int>, bool> used;
+	deque <pair <int, int> > unequal;
+	// init unequal pairs
+	for (int i = 0; i < n; i++)
+		for (int j = i + 1; j < (int)_automaton.size(); j++) {
+			if (is_terminal(i) != is_terminal(j))
+				unequal.push_back(make_pair(i, j));
+			else if (_automaton[i].go.size() != _automaton[j].go.size())
+				unequal.push_back(make_pair(i, j));
+			else {
+				auto it1 = _automaton[i].go.begin();
+				auto it2 = _automaton[j].go.begin();
+				bool uneq = false;
+				while (it1 != _automaton[i].go.end()) {
+					if (it1->first != it2->first) {
+						uneq = true;
+						break;
+					}
+					it1++, it2++;
+				}
+				if (uneq)
+					unequal.push_back(make_pair(i, j));
+			}
+		}
+	for (pair <int, int> p : unequal) {
+		used[p] = true;
+		used[make_pair(p.second, p.first)] = true;
+	}
+	// inverse edges in _automaton
+	vector <map <char, vector <int> > > inv_a(size());
+	for (int i = 0; i < n; i++)
+		for (const pair <char, int> &p : _automaton[i].go)
+			inv_a[p.second][p.first].push_back(i);
+	// find other uneqial pairs
+	while (!unequal.empty()) {
+		pair <int, int> v = unequal[0];
+		unequal.pop_front();
+		for (const pair <char, vector <int> > &p : inv_a[v.first])
+			if (inv_a[v.second].count(p.first))
+				for (int x : p.second)
+					for (int y : inv_a[v.second][p.first])
+						if (x < y && !used[make_pair(x, y)]) {
+							used[make_pair(x, y)] = true;
+							used[make_pair(y, x)] = true;
+							unequal.push_back(make_pair(x, y));
+						}
+	}
+
+	// construct new automaton from the components
+	vector <int> component_root(n, -1);
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			if (!used[make_pair(i, j)]) {
+				component_root[i] = j;
+				break;
+			}
+
+	unordered_map <int, int> old_to_new_id;
+	DeterministicAutomaton res;
+	old_to_new_id[get_start_state()] = res.get_start_state();
+	if (is_terminal(get_start_state()))
+		res.mark_terminal(res.get_start_state());
+	for (int i = 0; i < n; i++)
+		if (i != get_start_state() && component_root[i] == i) {
+			old_to_new_id[i] = res.add_state();
+			if (is_terminal(i))
+				res.mark_terminal(old_to_new_id[i]);
+		}
+
+	for (int i = 0; i < n; i++)
+		for (const pair <char, int> &p : _automaton[i].go)
+			res.add_edge(
+				old_to_new_id[component_root[i]],
+				old_to_new_id[component_root[p.second]],
+				p.first);
+
+	return res;
 }
 
 
