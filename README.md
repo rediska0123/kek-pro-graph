@@ -79,4 +79,4 @@ Symbol \ can only be used before one of the '(', ')', '*', '|'
 Examples:
  * abc matches        '(a|b|c)*c'
  * abb does not match '(a|b|c)*c'
- * aaaabb matches     '(aa)*b*'
+ * aaaabb matches     '(aa)\*b\*'
