@@ -1,6 +1,7 @@
 #include "ParseRDFTest.h"
 #include "parse_regex_test.h"
 #include "automaton_test.h"
+#include "regex_to_fsa_test.h"
 #include <cassert>
 
 #define TEST(TestClass)                               \
@@ -14,6 +15,7 @@ int main() {
 	TEST(ParseRDFTest);
 	TEST(ParseRegexTest);
 	TEST(AutomatonTest);
+	TEST(RegexToFsaTest);
     
     return 0;
 }

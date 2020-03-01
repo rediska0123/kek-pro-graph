@@ -3,7 +3,7 @@
 CXX=g++
 CXXFLAGS = -O2 -Wall -Werror -std=c++11 -Iinclude -Iserd/serd
 
-TESTS = bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parse_regex_test.o bin/automaton_test.o
+TESTS = bin/test.o bin/Test.o bin/ParseRDFTest.o bin/parse_regex_test.o bin/automaton_test.o bin/regex_to_fsa_test.o
 SOURCE = bin/parseRDF.o bin/parse_regex.o bin/automaton.o bin/regex_to_fsa.o
 
 all: main

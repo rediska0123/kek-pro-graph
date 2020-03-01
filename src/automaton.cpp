@@ -72,12 +72,12 @@ void NonDeterministicAutomaton::concatenate_with(const NonDeterministicAutomaton
 	map <int, int> old_to_new_id;
 	old_to_new_id[a.get_start_state()] = st;
 	
-	for (int i = 0; i < (int)a._automaton.size(); i++)
-		if (i != a.get_start_state()) {
+	for (int i = 0; i < (int)a._automaton.size(); i++) {
+		if (i != a.get_start_state())
 			old_to_new_id[i] = add_state();
-			if (a.is_terminal(i))
-				mark_terminal(old_to_new_id[i]);
-		}
+		if (a.is_terminal(i))
+			mark_terminal(old_to_new_id[i]);
+	}
 	
 	for (int i = 0; i < (int)a._automaton.size(); i++)
 		for (const pair <char, vector <int>> &p : a._automaton[i].go)
