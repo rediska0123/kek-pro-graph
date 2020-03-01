@@ -36,7 +36,7 @@ make tests
 To construct a minimal determinstic automaton run:
 ```
 make
-./main 'your_regular expression'
+./main 'your_regular_expression'
 ```
 The program will print the automaton: number of states and each state's description: its edges and whether it is terminal.
 The start state is always state number 0.
