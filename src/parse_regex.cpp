@@ -9,7 +9,7 @@ using namespace std;
 		"\n\tat index " + to_string(id));					\
 }
 
-TreeNode *parse_regex(string regex) {
+TreeNode *parse_regex(const string &regex) {
 	vector <int> pair_bracket((int)regex.length(), -1);
 	vector <int> open_brackets;
 	for (int i = 0; i < (int)regex.length(); i++)

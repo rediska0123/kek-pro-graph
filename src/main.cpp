@@ -1,21 +1,21 @@
-#include "parse_regex.h"
+#include "regex_to_fsa.h"
 #include <errno.h>
 #include <stdio.h>
 #include <iostream>
 
 using namespace std;
 
-void printTree(TreeNode *x, int deep = 0) {
-	for (int i = 0; i < deep; i++)
-		printf("\t");
-	printf("%c\n", x->x);
-	for (int i = 0; i < (int)x->edges.size(); i++)
-		printTree(x->edges[i], deep + i);
-}
-
 int main(int argc, char *argv[]) {
-	TreeNode *tn = parse_regex("a|bc|d");
-	printTree(tn);
+	
+	string regex = "(a|b)*c";
+	
+	DeterministicAutomaton a = regex_to_fsa(regex);
+	
+	cout << a.accepts("ac") << endl;
+	cout << a.accepts("bc") << endl;
+	cout << a.accepts("c") << endl;
+	cout << a.accepts("abaac") << endl;
+	cout << a.accepts("e") << endl;
 	
 	return 0;
 }
