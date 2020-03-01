@@ -59,16 +59,18 @@ $ ./main '(ab|aab|aba)*'
 	4 -> 3 : b
 ```
 
-##### Regular expression syntax:
+#### Regular expression syntax:
 
 Regex supported operations:
-
+| | |
+|-|-|
 | A|B                   | union of two regular expressions A and B                  |
 | A*                    | star (repeat any number of times)                         |
 | (A)                   | separates A (as usual brackets in arithmetic expressions) |
 | \(, \), \*, \|        | simple (, ), *, |, \ symbols                              |
 
-######Priorities: | < concatention (no symbol) < *
+###### Priorities
+| < concatention (no symbol) < *
 
   priorities examlpes:  a|ab*|abc ~ ((a)|(a(b*))|((ab)c))
 
@@ -78,6 +80,6 @@ Examples:  abc matches        '(a|b|c)*c'
            abb does not match '(a|b|c)*c'
 Other correct expressions:
 
-⋅⋅* '(a|b|c)*kek(a|b|c)*'
-⋅⋅* '\\*' --- '*'
-⋅⋅* '\\**' --- any number of '*' symbols
+ * '(a|b|c)*kek(a|b|c)*'
+ * '\\*' --- '*'
+ * '\\**' --- any number of '*' symbols
