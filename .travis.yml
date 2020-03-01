@@ -12,3 +12,4 @@ script:
  - make
  - make tests
  - ./tests
+ - ./main '(ab|aba|aab)*'
