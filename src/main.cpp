@@ -7,15 +7,19 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 	
-	string regex = "(a|b)*c";
+	NonDeterministicAutomaton a;
+	int s = a.get_start_state();
+	int x = a.add_state();
+	a.add_edge(s, x, 'b');
+	a.add_edge(x, x, 'c');
+	a.add_edge(x, x, 'd');
+	a.mark_terminal(x);
+	// b(c|d)*
 	
-	DeterministicAutomaton a = regex_to_fsa(regex);
+	DeterministicAutomaton d = a.make_deterministic();
 	
-	cout << a.accepts("ac") << endl;
-	cout << a.accepts("bc") << endl;
-	cout << a.accepts("c") << endl;
-	cout << a.accepts("abaac") << endl;
-	cout << a.accepts("e") << endl;
+	cout << a.accepts("bcdc") << endl;
+	cout << a.accepts("bcdc") << endl;
 	
 	return 0;
 }

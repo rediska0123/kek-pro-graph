@@ -149,16 +149,15 @@ void NonDeterministicAutomaton::_step_once(const vector <int> &st, vector <pair 
 	for (int v : cmp)
 		for (const auto &p : _automaton[v].go)
 			if (p.first != '\0')
-				for (int to : p.second)
-					if (!used[to]) {
-						// p.first to
-						vector <int> to_cmp;
-						_step_eps({to}, to_cmp);
-						for (int y : to_cmp)
-							res.push_back(make_pair(p.first, y));
-						dist1.push_back(to);
-						used[to] = true;
-					}
+				for (int to : p.second) {
+					// p.first to
+					vector <int> to_cmp;
+					_step_eps({to}, to_cmp);
+					for (int y : to_cmp)
+						res.push_back(make_pair(p.first, y));
+					dist1.push_back(to);
+					used[to] = true;
+				}
 	
 	sort(res.begin(), res.end());
 	res.resize(unique(res.begin(), res.end()) - res.begin());
