@@ -98,5 +98,8 @@ TreeNode *parse_regex(string regex) {
 		operations_waiting.pop_back();
 	}
 	
+	if (!operations_waiting.empty())
+		PANIC(regex, operations_waiting.back().second);
+	
 	return root;
 }

@@ -40,6 +40,7 @@ void ParseRegexTest::test_general() {
 		{ "a|b", true, union_node(symb_node('a'), symb_node('b')) },
 		{ "ab", true, concat_node(symb_node('a'), symb_node('b')) },
 		{ "a*", true, star_node(symb_node('a')) },
+		{ "\\)*", true, star_node(symb_node(')')) },
 		{ "a*|b*", true, union_node(star_node(symb_node('a')), star_node(symb_node('b'))) },
 		{ "(a|b)(c|d)", true, concat_node(
 			union_node(symb_node('a'), symb_node('b')),
@@ -80,6 +81,13 @@ void ParseRegexTest::test_general() {
 					concat_node(
 						symb_node('('),
 						symb_node(')')))) },
+		// incorrect regex syntax tests
+		{ "abc(de", false, nullptr },
+		{ "())", false, nullptr },
+		{ "\\a", false, nullptr },
+		{ "(*)", false, nullptr },
+		{ "|b", false, nullptr },
+		{ "b|", false, nullptr },
 	};
 	for (test t: tests) {
 		TreeNode *got;
@@ -87,7 +95,7 @@ void ParseRegexTest::test_general() {
 			got = parse_regex(t.regex);
 		} catch (...) {
 			DO_CHECK(!t.is_correct);
-			break;
+			continue;
 		}
 		DO_CHECK(t.is_correct);
 		DO_CHECK(eq(got, t.res));
