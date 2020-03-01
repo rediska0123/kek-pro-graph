@@ -27,18 +27,6 @@ To build the project simply run
 ### Running tests instructions
 
 ```
-    make rdf_test
-    ./rdf_test
+    make tests
+    ./tests
 ```
-
-## Parsing RDF NTriple files:
-
-To parse .nt file run:
-```
-    make
-    ./main your_filepath
-```
-Last command will print edges found in the provided file (found in your_filepath)
-in format from-vertex label, edge label, to-vertex label. Each label is a string.
-
-To parse example file use 'test/files/test_general.nt' as *your_filepath*.
