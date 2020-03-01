@@ -4,6 +4,7 @@
 #include <deque>
 #include <unordered_map>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -44,6 +45,18 @@ bool DeterministicAutomaton::accepts(const string &s) {
 		x = _automaton[x].go[c];
 	}
 	return _automaton[x].is_terminal;
+}
+
+void DeterministicAutomaton::print() const {
+	cout << size() << " states: " << endl;
+	for (int i = 0; i < (int)size(); i++) {
+		if (_automaton[i].is_terminal)
+			cout << i << ": terminal" << endl;
+		else
+			cout << i << ": " << endl;
+		for (pair <char, int> p : _automaton[i].go)
+			cout << "	" << i << " -> " << p.second << " : " << p.first << endl;
+	}
 }
 
 DeterministicAutomaton DeterministicAutomaton::minimize() const {

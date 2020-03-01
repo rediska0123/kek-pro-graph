@@ -36,6 +36,9 @@ class DeterministicAutomaton {
 	// Constructs an equivalent deterministic automaton, which contains
 	// as minimal vertexes as possible.
 	DeterministicAutomaton minimize() const;
+	
+	// Prints the automaton.
+	void print() const;
 
   private:
 	struct Vertex {

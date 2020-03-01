@@ -11,5 +11,7 @@ int main(int argc, char *argv[]) {
 	
 	cout << d.accepts("aababaabababa") << endl;
 	
+	d.print();
+	
 	return 0;
 }
