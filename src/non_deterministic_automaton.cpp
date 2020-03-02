@@ -75,19 +75,21 @@ void NonDeterministicAutomaton::_step_eps(const vector <int> &st, vector <int> &
 	// bfs on eps-edges
 
 	unordered_map <int, bool> used;
+	deque <int> d(st.begin(), st.end());
 	for (int x : st) {
 		used[x] = true;
 		res.push_back(x);
 	}
-	int last = 0;
-	while (last < (int)res.size()) {
-		int x = res[last++];
+	while (!d.empty()) {
+		int x = d[0];
+		d.pop_front();
 		for (const pair <char, vector <int> > &p : _automaton[x].go)
 			if (p.first == EPS_EDGE_SYMBOL)
 				for (int to : p.second)
 					if (!used[to]) {
 						used[to] = true;
 						res.push_back(to);
+						d.push_back(to);
 					}
 	}
 }
