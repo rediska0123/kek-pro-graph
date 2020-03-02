@@ -1,5 +1,6 @@
 #include "automaton_test.h"
 #include "automaton.h"
+#include "regex_to_fsa.h"
 
 using namespace std;
 
@@ -205,6 +206,24 @@ void AutomatonTest::test_deterministic_minimize() {
 			"", "aa", "baa"
 		}));
 		DO_CHECK(d.size() == 2);
+	}
+	{
+		DeterministicAutomaton a = regex_to_dfsa("(a|b)(a|b)*(aa|bb|abab|baba)*(a|b)(a|b)*"); // equal to (a|b)(a|b)(a|b)*
+		CHECK_ACCEPT(a, (vector <string> {
+			"abababbaabaababababbaa", "aaaa", "abba", "aababb", "ab", "aa"
+		}), (vector <string> {
+			"", "a", "c", "abc", "b"
+		}));
+		DO_CHECK(a.size() == 3);
+	}
+	{
+		DeterministicAutomaton a = regex_to_dfsa("(a|b)(a|b)*(aa|bb|abab|baba)(a|b)(a|b)*");
+		CHECK_ACCEPT(a, (vector <string> {
+			"abababbaabaababababbaa", "aaaa", "abba", "aababb",
+		}), (vector <string> {
+			"", "a", "c", "abc", "b", "abab"
+		}));
+		DO_CHECK(a.size() == 9);
 	}
 }
 
