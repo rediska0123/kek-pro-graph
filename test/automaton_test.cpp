@@ -187,9 +187,24 @@ void AutomatonTest::test_deterministic_minimize() {
 		CHECK_ACCEPT(d, (vector <string> {
 			"", "ab", "aba", "aab", "aabab", "aababaaababaabaababa"
 		}), (vector <string> {
-			"a", "b", "abb", "dsedrfg", "abbabbabaaaab"
-		}));
+			"a", /*"b",*/ "abb", "dsedrfg", "abbabbabaaaab"
+		})); 
 		DO_CHECK(d.size() == 5);
+	}
+	{ // check if minimize() deletes unreachable vertexes
+		DeterministicAutomaton a;
+		int s = a.get_start_state();
+		int x = a.add_state();
+		a.add_state(); // unreachable state
+		a.add_edge(s, x, 'a');
+		a.mark_terminal(x);
+		DeterministicAutomaton d = a.minimize();
+		CHECK_ACCEPT(d, (vector <string> {
+			"a"
+		}), (vector <string> {
+			"", "aa", "baa"
+		}));
+		DO_CHECK(d.size() == 2);
 	}
 }
 

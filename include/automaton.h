@@ -11,6 +11,9 @@ class DeterministicAutomaton {
 	// Creates an automaton with one start state and no terminal states.
 	DeterministicAutomaton();
 	
+	// Constructs an automaton from a.
+	DeterministicAutomaton(const DeterministicAutomaton &a);
+	
 	// Creates a new state and returns its identificator.
 	int add_state();
 	
@@ -34,7 +37,7 @@ class DeterministicAutomaton {
 	bool accepts(const std::string &s);
 	
 	// Constructs an equivalent deterministic automaton, which contains
-	// as minimal vertexes as possible.
+	// as minimal states as possible.
 	DeterministicAutomaton minimize() const;
 
 	// Returns the automaton intersection of automatons a and b.
@@ -58,6 +61,17 @@ class DeterministicAutomaton {
 	
 	std::vector <Vertex> _automaton;
 	int _start;
+	
+	// Deletes all states that can not be reached from the start state.
+	void _delete_unreachable_states();
+	
+	// Adds new sink state and all edges leading to it to make the
+	// automaton complete. If the automaton is already complete, then
+	// no new state will be added.
+	void _complete();
+
+	// Deletes the st state. Numeration of other vertexes may change.
+	void _delete_state(int st);
 };
 
 // DeterministicAutomaton stores a non-deterministic finite state machines
@@ -127,6 +141,8 @@ class NonDeterministicAutomaton {
 	void _step_eps(const std::vector <int> &st, std::vector <int> &res) const;
 	
 	bool _accepts_from_vertex(int st, const std::string &s, int i = 0);
+	
+	static const char EPS_EDGE_SYMBOL = '\0';
 };
 
 #endif

@@ -47,13 +47,16 @@ $ ./main '(ab|aab|aba)*'
 5 states: 
 0: terminal
 	0 -> 1 : a
+	0 -> 5 : b
 1: 
 	1 -> 2 : a
 	1 -> 3 : b
 2: 
+	2 -> 5 : a
 	2 -> 0 : b
 3: terminal
 	3 -> 4 : a
+	3 -> 5 : b
 4: terminal
 	4 -> 1 : a
 	4 -> 3 : b
