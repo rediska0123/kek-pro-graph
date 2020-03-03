@@ -141,12 +141,17 @@ void DeterministicAutomaton::_delete_state(int st) {
 	if (is_terminal(n - 1))
 		mark_terminal(st);
 	for (int i = 0; i < n; i++) {
-		vector <char> edges_to_change;
-		for (const pair <char, int> &p : _automaton[i].go)
+		vector <char> edges_to_change, edges_to_delete;
+		for (const pair <char, int> &p : _automaton[i].go) {
 			if (p.second == n - 1)
 				edges_to_change.push_back(p.first);
-		for (int x : edges_to_change)
+			if (p.second == st)
+				edges_to_delete.push_back(p.first);
+		}
+		for (char x : edges_to_change)
 			_automaton[i].go[x] = st;
+		for (char x : edges_to_delete)
+			_automaton[i].go.erase(x);
 	}
 	
 	_automaton[st] = _automaton[n - 1];

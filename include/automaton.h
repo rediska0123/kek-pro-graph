@@ -5,6 +5,9 @@
 #include <string>
 #include <map>
 
+class DeterministicAutomaton;
+class NonDeterministicAutomaton;
+
 // DeterministicAutomaton stores a deterministic finite state machines.
 class DeterministicAutomaton {
   public:
@@ -41,10 +44,11 @@ class DeterministicAutomaton {
 	DeterministicAutomaton minimize() const;
 
 	// Returns the automaton intersection of automatons a and b.
-	// Both a and b should be complete. Otherwise intersect may throw an
-	// invalid argument exception.
-	friend DeterministicAutomaton intersect(
-		const DeterministicAutomaton &a, const DeterministicAutomaton &b);
+	// Both a and b should be complete over the same alphabet.
+	// Otherwise intersect may throw an invalid argument exception.
+	// Automaton b should not contain eps-edges.
+	friend NonDeterministicAutomaton intersect(
+		const DeterministicAutomaton &a, const NonDeterministicAutomaton &b);
 	
 	// Prints the automaton.
 	void print() const;
@@ -115,10 +119,11 @@ class NonDeterministicAutomaton {
 	DeterministicAutomaton make_deterministic() const;
 
 	// Returns the automaton intersection of automatons a and b.
-	// Both a and b should be complete. Otherwise intersect may throw an
-	// invalid argument exception.
-	friend DeterministicAutomaton intersect(
-		const NonDeterministicAutomaton &a, const NonDeterministicAutomaton &b);
+	// Both a and b should be complete over the same alphabet.
+	// Otherwise intersect may throw an invalid argument exception.
+	// Automaton b should not contain eps-edges.
+	friend NonDeterministicAutomaton intersect(
+		const DeterministicAutomaton &a, const NonDeterministicAutomaton &b);
 
   private:
 	struct Vertex {

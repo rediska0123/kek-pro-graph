@@ -4,10 +4,13 @@
 
 using namespace std;
 
-DeterministicAutomaton intersect(const DeterministicAutomaton &a, const DeterministicAutomaton &b) {
+NonDeterministicAutomaton intersect(
+	const DeterministicAutomaton &a,
+	const NonDeterministicAutomaton &b
+) {
 	// bfs on pairs: (first automaton state, second automaton state)
 	
-	DeterministicAutomaton res;
+	NonDeterministicAutomaton res;
 	// maps bfs pairs to indexes in new result automaton
 	map <pair <int, int>, int> old_to_new_id;
 	
@@ -16,19 +19,27 @@ DeterministicAutomaton intersect(const DeterministicAutomaton &a, const Determin
 	
 	deque <pair <int, int> > d = {start};
 	
+	auto add_vertex_if_not_exists =
+	[&res, &old_to_new_id, &d](pair <int, int> v) mutable {
+		if (old_to_new_id.count(v) == 0) {
+			d.push_back(v);
+			old_to_new_id[v] = res.add_state();
+		}
+	};
+	
 	while (!d.empty()) {
 		pair <int, int> v = d[0];
 		d.pop_front();
-		for (const pair <char, int> p : a._automaton[v.first].go) {
+		for (const pair <char, int> p : a._automaton[v.first].go) { // deterministic edges
 			char symb = p.first;
+			int to_first = p.second;
 			if (b._automaton[v.second].go.count(symb) == 0)
-				throw invalid_argument("Automatons are not complete");
-			const pair <int, int> &to = make_pair(p.second, b._automaton[v.second].go.at(symb));
-			if (old_to_new_id.count(to) == 0) {
-				d.push_back(to);
-				old_to_new_id[to] = res.add_state();
+				throw invalid_argument("Automatons are not complete over the same alphabet");
+			for (int to_second : b._automaton[v.second].go.at(symb)) { // non-deterministic edges
+				pair <int, int> to = make_pair(to_first, to_second);
+				add_vertex_if_not_exists(to);
+				res.add_edge(old_to_new_id[v], old_to_new_id[to], symb);
 			}
-			res.add_edge(old_to_new_id[v], old_to_new_id[to], p.first);
 		}
 	}
 	
@@ -41,8 +52,4 @@ DeterministicAutomaton intersect(const DeterministicAutomaton &a, const Determin
 	}
 	
 	return res;
-}
-
-DeterministicAutomaton intersect(const NonDeterministicAutomaton &a, const NonDeterministicAutomaton &b) {
-	return intersect(a.make_deterministic(), b.make_deterministic());
 }

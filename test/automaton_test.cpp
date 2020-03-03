@@ -25,6 +25,23 @@ NonDeterministicAutomaton construct_automaton(
 	return a;
 }
 
+// same as construct_automaton, but with deterministic automaton
+DeterministicAutomaton construct_det_automaton(
+	int states_num,
+	vector <edge> edges,
+	vector <int> terminals
+) {
+	DeterministicAutomaton a;
+	vector <int> s = {a.get_start_state()};
+	for (int i = 0; i < states_num - 1; i++)
+		s.push_back(a.add_state());
+	for (edge e : edges)
+		a.add_edge(e.from, e.to, e.c);
+	for (int t : terminals)
+		a.mark_terminal(t);
+	return a;
+}
+
 // generates automaton for aa*a
 NonDeterministicAutomaton test_automaton1() {
 	return construct_automaton(3,
@@ -203,7 +220,7 @@ void AutomatonTest::test_deterministic_minimize() {
 		CHECK_ACCEPT(d, (vector <string> {
 			"a"
 		}), (vector <string> {
-			"", "aa", "baa"
+			"", "aa", "baa", "aaa"
 		}));
 		DO_CHECK(d.size() == 2);
 	}
@@ -228,68 +245,80 @@ void AutomatonTest::test_deterministic_minimize() {
 }
 
 void AutomatonTest::test_intersection() {
-	{ // aa*a and (ab|aba|aaa)* -> (aaa)*
-		NonDeterministicAutomaton a = construct_automaton(4,
-			{ { 0, 1, 'a' }, { 1, 1, 'a' }, { 1, 2, 'a' },
+	{ // aaa* and (ab|aba|aaa)* -> (aaa)+
+		DeterministicAutomaton a = construct_det_automaton(4,
+			{ { 0, 1, 'a' }, { 1, 2, 'a' }, { 2, 2, 'a' },
 			  { 0, 3, 'b' }, { 1, 3, 'b' }, { 2, 3, 'b' }, { 3, 3, 'b' } },
 			{ 2 });
-		NonDeterministicAutomaton b = construct_automaton(10,
-			{ { 0, 1, 'a' }, { 1, 2, 'b' }, { 2, 0, '\0' },
-			  { 0, 3, 'a' }, { 3, 4, 'b' }, { 4, 5, 'a' }, { 5, 0, '\0' },
-			  { 0, 6, 'a' }, { 6, 7, 'a' }, { 7, 8, 'a' }, { 8, 0, '\0' },
-			  { 0, 9, 'b' }, { 1, 9, 'a' }, { 2, 9, 'a' }, { 2, 9, 'b' },
-			  { 3, 9, 'a' }, { 4, 9, 'b' }, { 5, 9, 'a' }, { 5, 9, 'b' },
-			  { 6, 9, 'b' }, { 7, 9, 'b' }, { 8, 9, 'a' }, { 8, 9, 'b' },
-			  { 9, 9, 'a' }, { 9, 9, 'b' } },
+		NonDeterministicAutomaton b = construct_automaton(7,
+			{ { 0, 1, 'a' }, { 1, 0, 'b' },
+			  { 0, 2, 'a' }, { 2, 3, 'b' }, { 3, 0, 'a' },
+			  { 0, 4, 'a' }, { 4, 5, 'a' }, { 5, 0, 'a' },
+			  { 0, 6, 'b' }, { 1, 6, 'a' }, { 2, 6, 'a' }, { 3, 6, 'b' },
+			  { 4, 6, 'b' }, { 5, 6, 'b' }, { 6, 6, 'a' }, { 6, 6, 'b' } },
 			{ 0 });
-		DeterministicAutomaton c = intersect(a, b);
+		NonDeterministicAutomaton c = intersect(a, b);
 		CHECK_ACCEPT(c, (vector <string> {
 			"aaa", "aaaaaa", "aaaaaaaaa"
 		}), (vector <string> {
 			"", "a", "aa", "aba", "ab"
 		}));
 	} { // a* and a* -> a*
-		NonDeterministicAutomaton a = construct_automaton(1,
+		DeterministicAutomaton a = construct_det_automaton(1,
 			{ { 0, 0, 'a' } },
 			{ 0 });
 		NonDeterministicAutomaton b = construct_automaton(1,
 			{ { 0, 0, 'a' } },
 			{ 0 });
-		DeterministicAutomaton c = intersect(a, b);
+		NonDeterministicAutomaton c = intersect(a, b);
 		CHECK_ACCEPT(c, (vector <string> {
 			"", "a", "aaa", "aaaaaa", "aaaaaaaaa"
 		}), (vector <string> {
 			"aab", "abc"
 		})); 
 	} { // a* and (aa)* -> (aa)*
-		NonDeterministicAutomaton a = construct_automaton(1,
+		DeterministicAutomaton a = construct_det_automaton(1,
 			{ { 0, 0, 'a' } },
 			{ 0 });
-		NonDeterministicAutomaton b = construct_automaton(3,
-			{ { 0, 1, 'a' }, { 1, 2, 'a' }, { 2, 0, '\0' } },
+		NonDeterministicAutomaton b = construct_automaton(2,
+			{ { 0, 1, 'a' }, { 1, 0, 'a' } },
 			{ 0 });
-		DeterministicAutomaton c = intersect(a, b);
+		NonDeterministicAutomaton c = intersect(a, b);
 		CHECK_ACCEPT(c, (vector <string> {
 			"", "aa", "aaaa", "aaaaaa", "aaaaaaaa"
 		}), (vector <string> {
 			"a", "aaa", "aab", "abc"
 		})); 
 	} { // (a|b)* and (b|c)* -> b*
-		NonDeterministicAutomaton a = construct_automaton(3,
-			{ { 0, 1, 'a' }, { 0, 1, 'b' }, { 1, 0, '\0' },
-			  { 0, 2, 'c'}, { 1, 2, 'a' }, { 1, 2, 'b' }, { 1, 2, 'c' },
-			  { 2, 2, 'a' }, { 2, 2, 'b' }, { 2, 2, 'c' } },
+		DeterministicAutomaton a = construct_det_automaton(2,
+			{ { 0, 0, 'a' }, { 0, 0, 'b' },
+			  { 0, 1, 'c' }, { 1, 1, 'a' }, { 1, 1, 'b' }, { 1, 1, 'c' } },
 			{ 0 });
-		NonDeterministicAutomaton b = construct_automaton(3,
-			{ { 0, 1, 'b' }, { 0, 1, 'c' }, { 1, 0, '\0' },
-			  { 0, 2, 'a'}, { 1, 2, 'a' }, { 1, 2, 'b' }, { 1, 2, 'c' },
-			  { 2, 2, 'a' }, { 2, 2, 'b' }, { 2, 2, 'c' } },
-			{ 0 });
-		DeterministicAutomaton c = intersect(a, b);
+		NonDeterministicAutomaton b = construct_automaton(3, // (b|c)* very non-deterministic automaton
+			{ { 0, 1, 'b' }, { 0, 1, 'c' }, { 1, 0, 'b' }, { 1, 0, 'c' },
+			  { 0, 0, 'b' }, { 0, 0, 'c' }, { 1, 1, 'b' }, { 1, 1, 'c' },
+			  { 0, 2, 'a' }, { 1, 2, 'a' }, { 2, 2, 'a' }, { 2, 2, 'b' }, { 2, 2, 'c' } },
+			{ 0, 1 });
+		NonDeterministicAutomaton c = intersect(a, b);
 		CHECK_ACCEPT(c, (vector <string> {
 			"", "b", "bb", "bbb", "bbbbbbbb"
 		}), (vector <string> {
 			"a", "c", "bba", "cac", "abc"
+		}));
+	} { // (aaaa|aaaaaa)* and a*aa*aa*a -> aaaa(aa)*
+		DeterministicAutomaton a = construct_automaton(9,
+			{ { 0, 1, 'a' }, { 1, 2, 'a' }, { 2, 3, 'a' }, { 3, 0, 'a' },
+			  { 0, 4, 'a' }, { 4, 5, 'a' }, { 5, 6, 'a' }, { 6, 7, 'a' }, { 7, 8, 'a' }, { 8, 0, 'a' } },
+			{ 0 }).make_deterministic();
+		NonDeterministicAutomaton b = construct_automaton(5,
+			{ { 0, 0, 'a'}, { 0, 1, 'a' }, { 1, 1, 'a' }, { 1, 2, 'a' }, { 2, 2, 'a' }, { 2, 3, 'a' },
+			  { 3, 4, 'a' }, { 4, 4, 'a' } },
+			{ 3 });
+		NonDeterministicAutomaton c = intersect(a, b);
+		CHECK_ACCEPT(c, (vector <string> {
+			"aaaa", "aaaaaa", "aaaaaaaa", "aaaaaaaaaa"
+		}), (vector <string> {
+			"", "a", "aa", "aaa", "aaaaa", "aaaaaaa", "aaaaaaaaaaa"
 		}));
 	}
 }
