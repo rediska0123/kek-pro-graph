@@ -10,6 +10,6 @@ install:
 
 script:
  - make
- - make rdf_test
- - ./rdf_test
- - ./main test/files/test_general.nt
+ - make tests
+ - ./tests
+ - ./main '(ab|aba|aab)*'

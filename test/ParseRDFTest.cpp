@@ -55,6 +55,7 @@ void ParseRDFTest::test_general() {
 }
 
 void ParseRDFTest::run_all_tests() {
+	printf("ParseRDF testing...\n");
 	test_empty_file();
 	test_single_edge();
 	test_general();
